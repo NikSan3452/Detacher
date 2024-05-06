@@ -1,7 +1,4 @@
-﻿using System.Security.Principal;
-using NLog;
-
-namespace Detacher
+﻿namespace Detacher
 {
     public static class Program
     {
@@ -25,6 +22,8 @@ namespace Detacher
             {
                 Logging.Log.Error($"Произошла ошибка: {ex.Message}");
             }
+
+            Console.ReadLine();
 
             Environment.Exit(0);
         }

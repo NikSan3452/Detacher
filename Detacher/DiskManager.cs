@@ -7,13 +7,13 @@ internal class DiskManager(string sid, Config config)
         Logging.Log.Debug("Выполняется поиск дисков...");
         var diskList = new List<string>();
         if (config.DiskPaths == null) return diskList;
-        foreach (var path in config.DiskPaths) SearchDiskInDirectory(path.Trim(), diskList);
+        foreach (var path in config.DiskPaths) SearchDiskInDirectoryRecursive(path.Trim(), diskList);
 
         Logging.Log.Debug($"Список дисков для SID {sid}:\n{string.Join("\n", diskList)}");
         return diskList;
     }
 
-    private void SearchDiskInDirectory(string dir, ICollection<string> diskList)
+    private void SearchDiskInDirectoryRecursive(string dir, ICollection<string> diskList)
     {
         foreach (var diskName in Directory.GetFiles(dir))
         {
@@ -24,7 +24,7 @@ internal class DiskManager(string sid, Config config)
         foreach (var subDir in Directory.GetDirectories(dir))
             try
             {
-                SearchDiskInDirectory(subDir, diskList);
+                SearchDiskInDirectoryRecursive(subDir, diskList);
             }
             catch (Exception ex)
             {
